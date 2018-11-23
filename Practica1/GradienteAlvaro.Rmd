@@ -27,7 +27,7 @@ library(forecast)
 gmlF <- glm(label ~ score.1 + score.2, family = 'binomial', data = data)
 prediccion <- as.numeric(predict(gmlF, data, 'response') > 0.5)
 
-table(prediccion, data$label, dnn = c('Normal', 'Predicho'))
+table(prediccion, data$label, dnn = c('Prediccion', 'Normal'))
 ```
 
 
