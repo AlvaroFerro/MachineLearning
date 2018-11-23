@@ -1,0 +1,97 @@
+---
+title: "Funcion del gradiente"
+author: "Alvaro Ferro Perez"
+date: "23 noviembre 2018"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    number_sections: true
+---
+
+```{r}
+#Load data
+data <- read.csv("data/4_1_data.csv")
+
+#Create plot
+plot(data$score.1, data$score.2, col = as.factor(data$label), xlab = "Score-1", ylab = "Score-2")
+
+#Matriz de confusión
+library(caret)
+library(e1071)
+library(caTools)
+library(forecast)
+
+gmlF <- glm(label ~ score.1 + score.2, family = 'binomial', data = data)
+prediccion <- as.numeric(predict(gmlF, data, 'response') > 0.5)
+
+table(prediccion, data$label, dnn = c('Normal', 'Predicho'))
+```
+
+
+```{r}
+Sigmoid <- function(x) { 
+  1 / (1 + exp(-x))
+}
+
+CostFunction <- function(parameters, X, Y) {
+  n <- nrow(X)
+  # function to apply (%*% Matrix multiplication)
+  g <- Sigmoid(X %*% parameters)
+  J <- (1/n) * sum((-Y * log(g)) - ((1 - Y) * log(1 - g)))
+  return(J)
+}
+
+```
+
+Cargamos el dataset de training
+
+```{r}
+
+TestGradientDescent <- function(iterations = 1200, X, Y) {
+  
+  # Initialize (b, W)
+  parameters <- rep(0, ncol(X))
+  # Check evolution
+  print(paste("Initial Cost Function value: ", 
+              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
+  
+  # updating (b, W) using gradient update
+  
+  # Derive theta using gradient descent using optim function
+  # Look for information about the "optim" function (there are other options)
+  parameters_optimization <- optim(par = parameters, fn = CostFunction, X = X, Y = Y, 
+                                   control = list(maxit = iterations))
+  #set parameters
+  parameters <- parameters_optimization$par
+  
+  # Check evolution
+  print(paste("Final Cost Function value: ", 
+              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
+
+ return(parameters) 
+}
+```
+
+```{r}
+#Este es nuestro w del peso para la pendiente
+X <- as.matrix(data[, c(1,2)])
+
+#Add ones to X in the first column (matrix multiplication x b)
+#Esto añade una columna de 1
+X <- cbind(rep(1, nrow(X)), X)
+
+#Response variable
+Y <- as.matrix(data$label)
+
+TestGradientDescent(X = X, Y = Y)
+```
+
+
+
+
+
+
+
