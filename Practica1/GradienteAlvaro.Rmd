@@ -1,7 +1,7 @@
 ---
 title: "Funcion del gradiente"
 author: "Alvaro Ferro Perez"
-date: "23 noviembre 2018"
+date: "6 diciembre 2018"
 output:
   html_document:
     toc: true
@@ -15,23 +15,6 @@ output:
 #Load data
 data <- read.csv("data/4_1_data.csv")
 
-#Create plot
-plot(data$score.1, data$score.2, col = as.factor(data$label), xlab = "Score-1", ylab = "Score-2")
-
-#Matriz de confusión
-library(caret)
-library(e1071)
-library(caTools)
-library(forecast)
-
-gmlF <- glm(label ~ score.1 + score.2, family = 'binomial', data = data)
-prediccion <- as.numeric(predict(gmlF, data, 'response') > 0.5)
-
-table(prediccion, data$label, dnn = c('Prediccion', 'Normal'))
-```
-
-
-```{r}
 Sigmoid <- function(x) { 
   1 / (1 + exp(-x))
 }
@@ -46,11 +29,10 @@ CostFunction <- function(parameters, X, Y) {
 
 ```
 
-Cargamos el dataset de training
 
 ```{r}
 
-TestGradientDescent <- function(iterations = 1200, X, Y) {
+TestGradientDescent <- function(iterations = 10000, X, Y) {
   
   # Initialize (b, W)
   parameters <- rep(0, ncol(X))
@@ -76,17 +58,59 @@ TestGradientDescent <- function(iterations = 1200, X, Y) {
 ```
 
 ```{r}
-#Este es nuestro w del peso para la pendiente
+
 X <- as.matrix(data[, c(1,2)])
-
-#Add ones to X in the first column (matrix multiplication x b)
-#Esto añade una columna de 1
 X <- cbind(rep(1, nrow(X)), X)
-
-#Response variable
 Y <- as.matrix(data$label)
+```
 
-TestGradientDescent(X = X, Y = Y)
+
+Ejercicio 1
+
+```{r}
+parameters <- TestGradientDescent(X = X, Y = Y)
+data_clean <- subset(data, select = c(score.1, score.2))
+data_clean <- cbind(initial = 1, data_clean)
+
+dfProb <- 0
+for(i in 1:nrow(data_clean)){
+  res <- Sigmoid(t(as.numeric(data_clean[i,])) %*% parameters)
+  dfProb <- rbind(dfProb, res)
+}
+
+#La primera linea de este dataframe no tiene info
+dfProb <- as.data.frame(dfProb)
+dfProb <- dfProb[-1,]
+
+#Dataframe original + las probabilidades
+data_complete <- cbind(data, prob = dfProb)
+table(data_complete$label, ifelse(data_complete$prob > 0.68, 1, 0))
+```
+
+
+
+Ejercicio 2 - A partir de aproximadamente 300 iteraciones el resultado es estático
+
+```{r}
+it_error <- cbind(0,0)
+colnames(it_error) <- c("Iteraciones","Convergencia")
+
+set.seed(123)
+for (i in seq(1:750)) {
+  parameters <- TestGradientDescent(iterations = i, X = X, Y = Y)
+  convergence <- c(CostFunction(parameters, X, Y))
+  output <- cbind(i,round(convergence,5))
+  colnames(output) <- c("iterations","convergence")
+  it_error <- rbind(it_error,output)
+}
+```
+
+Representación gráfica
+
+```{r}
+library(ggplot2)
+it_error <- as.data.frame(it_error)
+ggplot(it_error,aes(x=it_error$Iteraciones ,y=it_error$Convergencia)) + geom_smooth() + xlab('Iteraciones') + ylab('Convergencia')
 ```
 
 
