@@ -68,6 +68,7 @@ Y <- as.matrix(data$label)
 Ejercicio 1
 
 ```{r}
+set.seed(12345)
 parameters <- TestGradientDescent(X = X, Y = Y)
 data_clean <- subset(data, select = c(score.1, score.2))
 data_clean <- cbind(initial = 1, data_clean)
@@ -84,9 +85,23 @@ dfProb <- dfProb[-1,]
 
 #Dataframe original + las probabilidades
 data_complete <- cbind(data, prob = dfProb)
-table(data_complete$label, ifelse(data_complete$prob > 0.68, 1, 0))
+tabl <- table(data_complete$label, ifelse(data_complete$prob > 0.68, 1, 0))
+tabl
 ```
 
+```{r}
+p = 52 / (52 + 4)
+r = 52 / (52 + 8)
+p
+r
+
+#Valores altos son buenos, esto entra en examen
+
+precision <- tabl[2, 2] / (tabl[2, 2] + tabl[1, 2])
+precision
+recall <- tabl[2, 2] / (tabl[2, 2] + tabl[2, 1])
+recall
+```
 
 
 Ejercicio 2 - A partir de aproximadamente 300 iteraciones el resultado es estático
@@ -95,7 +110,6 @@ Ejercicio 2 - A partir de aproximadamente 300 iteraciones el resultado es estát
 it_error <- cbind(0,0)
 colnames(it_error) <- c("Iteraciones","Convergencia")
 
-set.seed(123)
 for (i in seq(1:750)) {
   parameters <- TestGradientDescent(iterations = i, X = X, Y = Y)
   convergence <- c(CostFunction(parameters, X, Y))
