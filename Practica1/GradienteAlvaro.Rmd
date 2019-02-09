@@ -96,6 +96,19 @@ p
 r
 
 #Valores altos son buenos, esto entra en examen
+#Si la precision es alta pero el recall bajo <- Doy credito a mucha gente pero no cojo a muchos de los que no me pagan
+#En este caso estoy dando mucho crédito
+
+#Al ser la precision alta, no tiene valor falso positivo (divisor), esto significa que aciertas, el que dices que no paga no paga al final
+
+#El recall <- de cada X que capturas, el dividendo te muestra los que te la lían
+
+#Matriz de confusión y matriz de coste son muy importantes
+#La curva ROC es el ratio de falsos positivos versus el ratio de verdaderos positivos que ambos salen de la matriz de confusion
+
+#AUC = 1 perfecto
+#AUC = 0.8 normal
+#AUC = 0.5 mierda
 
 precision <- tabl[2, 2] / (tabl[2, 2] + tabl[1, 2])
 precision
@@ -124,8 +137,9 @@ Representación gráfica
 ```{r}
 library(ggplot2)
 it_error <- as.data.frame(it_error)
-ggplot(it_error,aes(x=it_error$Iteraciones ,y=it_error$Convergencia)) + geom_smooth() + xlab('Iteraciones') + ylab('Convergencia')
+ggplot(it_error,aes(x = it_error$Iteraciones, y = it_error$Convergencia)) + geom_smooth() + xlab('Iteraciones') + ylab('Convergencia')
 ```
+
 
 
 
