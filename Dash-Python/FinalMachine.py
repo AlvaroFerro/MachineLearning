@@ -14,7 +14,11 @@ from sklearn import neighbors
 
 import pandas as pd
 
-df = pd.read_csv('C:\\Users\\alvar\\Desktop\\dataFIFA.csv')
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,  static_folder='data')
+server = app.server
+
+df = pd.read_csv('data/dataFIFA.csv')
 df.drop(['Unnamed: 0'], axis=1, inplace=True)
 
 #Model building
@@ -55,9 +59,6 @@ abilities = ['Crossing','Finishing','HeadingAccuracy','ShortPassing','Volleys',
 
 abilities_goalKeeper = ['GKDiving', 'GKHandling', 'GKKicking', 'GKPositioning', 'GKReflexes']
              
-
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 def fig_to_uri(in_fig, close_all=True, **save_args):
     # type: (plt.Figure) -> str
@@ -239,8 +240,7 @@ def generate_radar_chart(input_value):
     plt.figtext(0.5,0.57,newDf_names.Name.iloc[4],color='black',fontsize=20)
     #plt.show()
     return(plt)
-    
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
 
 colors = {
     'background': '#111111',
