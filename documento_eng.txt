@@ -1,0 +1,21 @@
+A year ago, I was a numbers geek with no coding background. After trying an online programming course, I was so inspired that I enrolled in one of the best computer science programs in Canada.
+
+Two weeks later, I realized that I could learn everything I needed through edX, Coursera, and Udacity instead. So I dropped out.
+
+The decision was not difficult. I could learn the content I wanted to faster, more efficiently, and for a fraction of the cost.
+
+I already had a university degree and, perhaps more importantly, I already had the university experience. Paying $30K+ to go back to school seemed irresponsible.
+
+I started creating my own data science master’s degree using online courses shortly afterwards, after realizing it was a better fit for me than computer science. I scoured the introduction to programming landscape. I’ve already taken several courses and audited portions of many others. I know the options, and what skills are needed if you’re targeting a data analyst or data scientist role.
+
+For this guide, I spent 20+ hours trying to find every single online introduction to programming course offered as of August 2016, extracting key bits of information from their syllabi and reviews, and compiling their ratings. For this task, I turned to none other than the open source Class Central community and its database of thousands of course ratings and reviews.
+
+We believe we covered every notable course that exists and which fits the above criteria. Since there are seemingly hundreds of courses on Udemy in Python and R, we chose to consider the most reviewed and highest rated ones only. There is a chance we missed something, however. Please let us know if you think that is the case.
+
+We compiled average rating and number of reviews from Class Central and other review sites. We calculated a weighted average rating for each course. If a series had multiple courses (like Rice University’s Part 1 and Part 2), we calculated the weighted average rating across all courses. We also read text reviews and used this feedback to supplement the numerical ratings.
+
+We made subjective syllabus judgment calls based on three factors:
+
+Coverage of the fundamentals of programming.
+Coverage of more advanced, but useful, topics in programming. (E.g. several courses choose to not cover object-oriented programming. We believe this is a key topic, though not a deal-breaker, hence these courses only being docked marks and not excluded from consideration.)
+How much of the syllabus is relevant to data science?
